@@ -13,6 +13,7 @@ def insertion_sort(datos: list[int]) -> tuple[list[int], int]:
         Una tupla con la lista ordenada y el numero total de
         comparaciones entre elementos realizadas durante el proceso.
     """
+    datos = datos.copy()
     comparaciones = 0
     n = len(datos)
     for i in range(1, n):
@@ -20,7 +21,7 @@ def insertion_sort(datos: list[int]) -> tuple[list[int], int]:
         j = i - 1
         while j >= 0:
             comparaciones += 1
-            if datos[j] <= clave:
+            if datos[j] >= clave:
                 break
             datos[j + 1] = datos[j]
             j -= 1

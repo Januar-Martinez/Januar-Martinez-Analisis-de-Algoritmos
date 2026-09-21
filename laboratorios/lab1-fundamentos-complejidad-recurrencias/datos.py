@@ -1,3 +1,5 @@
+import random
+
 """Generadores de lotes de registros para los escenarios de Tamiza."""
  
  
