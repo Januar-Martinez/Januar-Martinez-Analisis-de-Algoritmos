@@ -29,3 +29,15 @@ Es importante que el ordenamiento sea adecuado ya que de eso depende a quien lla
  - El **mejor caso** se da cuando los 1.200.000 registros vienen ya ordenados por índice de riegos de mayor a menor, el **caso promedio**  se cuando vienen ordenados de manera totalmente al azar y el **peor caso** cuando los registro vienen ordenados de menor a mayor riesgo.
  - Para decidir si el algoritmo Tamiza entra en producción hay que usar el peor caso, porque es donde mas se va demorar el algoritmo en realizar el proceso.
  - Predicción: El escenario **A — Aleatorio** = caso promedio, el escenario **B — Casi ordenado** = mejor caso y el escenario **C — Orden inverso** = el peor caso.
+
+### 3.2 — Demostración experimental
+#### Comparaciones
+
+![Comparaciones vs tamaño de entrada](graficas/parte3_comparaciones.png)
+
+#### Tiempo de ejecución
+
+![Tiempo vs tamaño de entrada](graficas/parte3_tiempo.png)
+
+- El escenario C – orden inverso resulto siendo el peor caso, el escenario B – casi ordenado el mejor y el escenario A – aleatorio el que se aproxima al promedio.
+- Esto coincido al 100% con mi predicción.
