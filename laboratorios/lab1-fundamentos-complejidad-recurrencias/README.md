@@ -191,3 +191,21 @@ $$
 |---|---|---|---|
 | **Insertion Sort** | $O(n)$ | $O(n^2)$ | $O(n^2)$ |
 | **Merge Sort** | $O(n\log n)$ | $O(n\log n)$ | $O(n\log n)$ |
+
+### 4.2 — Validación experimental
+
+#### Comparación de tiempos de Insertion Sort y Merge Sort
+![Comparación de tiempos de Insertion Sort y Merge Sort](graficas/parte4_tiempo.png)
+
+En la gráfica se observa que el tiempo de ejecución de Insertion Sort
+aumenta más rápidamente a medida que crece el tamaño de entrada,
+mientras que Merge Sort presenta un crecimiento más moderado.
+
+Esto coincide con las complejidades analizadas anteriormente:
+Insertion Sort tiene una complejidad promedio de O(n²), mientras que
+Merge Sort tiene una complejidad de O(n log n).
+
+Para tamaños pequeños pueden presentarse diferencias distintas a las
+esperadas debido a los costos constantes de cada implementación y al
+ruido propio de la medición del tiempo. A medida que aumenta el tamaño
+de entrada, el comportamiento asintótico se hace más evidente.
