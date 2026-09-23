@@ -46,40 +46,170 @@ Es importante que el ordenamiento sea adecuado ya que de eso depende a quien lla
 
 ### 4.1 — Cálculo teórico
 
-#### Planteamiento la recurrencia de merge sort y Resolución por metodo de sustitución:
-$$ T(n)=2T\left(\frac{n}{2}\right)+O(n) $$
-- $2T(n/2)$ = costo de la recursividad. 
-- $O(n)$ = hace referencia a una función de costo lineal. 
+#### Planteamiento de la recurrencia de Merge Sort y resolución por método de sustitución
 
-Método de sustitución Partimos de: 
-$$ T(n)=2T\left(\frac{n}{2}\right)+O(n) $$ 
-Reemplazamos $O(n)$ por $cn$: 
-$$ T(n)=2T\left(\frac{n}{2}\right)+cn $$ 
-Hipótesis 
-$$ T(n)\leq cn\log n $$ 
-Entonces: 
-$$ T\left(\frac{n}{2}\right) \leq c\frac{n}{2}\log\left(\frac{n}{2}\right) $$ 
-Sustituimos: 
-$$ T(n) \leq 2\left[ c\frac{n}{2}\log\left(\frac{n}{2}\right) \right]+cn $$ 
-Simplificando: $$ T(n) \leq cn\log\left(\frac{n}{2}\right)+cn $$ 
-Por lo tanto: $$ T(n) \leq cn(\log n-\log 2)+cn $$ 
-Entonces: $$ T(n) \leq cn\log n-cn\log 2+cn $$ 
-Como $\log 2=1$ cuando la base del logaritmo es $2$: $$ T(n) \leq cn\log n-cn+cn $$ Finalmente: $$ T(n)\leq cn\log n $$ 
-Por lo tanto: $$ \boxed{T(n)=O(n\log n)} $$
+$$
+T(n)=2T\left(\frac{n}{2}\right)+O(n)
+$$
 
-### Cota manual de insertion sort
-$$ T(n) = C_1n+C_2(n-1)+C_3(n-1) +C_4\sum_{i=1}^{n-1}(t_i+1) +C_5\sum_{i=1}^{n-1}t_i +C_6\sum_{i=1}^{n-1}t_i +C_7(n-1) $$ 
-Agrupando términos: $$ T(n) = C_1n + (n-1)(C_2+C_3+C_4+C_7) + (C_4+C_5+C_6) \sum_{i=1}^{n-1}t_i $$ 
-En el peor caso, los datos están en **orden inverso**: $t_i=i$
+- $2T(n/2)$ = costo de la recursividad.
+- $O(n)$ = hace referencia a una función de costo lineal.
 
-Por lo tanto: $$ \sum_{i=1}^{n-1}i = \frac{n(n-1)}{2} $$ 
-Sustituimos: $$ T(n) = C_1n + (C_2+C_3+C_4+C_7)(n-1) + (C_4+C_5+C_6) \frac{n^2-n}{2} $$ 
-El término dominante es: $n^2$
+#### Método de sustitución
 
-Por lo tanto: $$ \boxed{T(n)=O(n^2)} $$
+Partimos de:
+
+$$
+T(n)=2T\left(\frac{n}{2}\right)+O(n)
+$$
+
+Reemplazamos $O(n)$ por $cn$:
+
+$$
+T(n)=2T\left(\frac{n}{2}\right)+cn
+$$
+
+**Hipótesis:**
+
+$$
+T(n)\leq cn\log n
+$$
+
+Entonces:
+
+$$
+T\left(\frac{n}{2}\right)
+\leq
+c\frac{n}{2}\log\left(\frac{n}{2}\right)
+$$
+
+Sustituimos:
+
+$$
+T(n)
+\leq
+2\left[
+c\frac{n}{2}\log\left(\frac{n}{2}\right)
+\right]+cn
+$$
+
+Simplificando:
+
+$$
+T(n)
+\leq
+cn\log\left(\frac{n}{2}\right)+cn
+$$
+
+Por lo tanto:
+
+$$
+T(n)
+\leq
+cn(\log n-\log 2)+cn
+$$
+
+Entonces:
+
+$$
+T(n)
+\leq
+cn\log n-cn\log 2+cn
+$$
+
+Como $\log_2 2=1$:
+
+$$
+T(n)
+\leq
+cn\log n-cn+cn
+$$
+
+Finalmente:
+
+$$
+T(n)\leq cn\log n
+$$
+
+Por lo tanto:
+
+$$
+\boxed{T(n)=O(n\log n)}
+$$
+
+---
+
+### Cota manual de Insertion Sort
+
+La expresión de la complejidad es:
+
+$$
+T(n)
+=
+C_1n+C_2(n-1)+C_3(n-1)
++C_4\sum_{i=1}^{n-1}(t_i+1)
++C_5\sum_{i=1}^{n-1}t_i
++C_6\sum_{i=1}^{n-1}t_i
++C_7(n-1)
+$$
+
+Agrupando términos:
+
+$$
+T(n)
+=
+C_1n
++
+(n-1)(C_2+C_3+C_4+C_7)
++
+(C_4+C_5+C_6)
+\sum_{i=1}^{n-1}t_i
+$$
+
+En el peor caso, los datos están en **orden inverso**:
+
+$$
+t_i=i
+$$
+
+Por lo tanto:
+
+$$
+\sum_{i=1}^{n-1}i
+=
+\frac{n(n-1)}{2}
+$$
+
+Sustituimos:
+
+$$
+T(n)
+=
+C_1n
++
+(C_2+C_3+C_4+C_7)(n-1)
++
+(C_4+C_5+C_6)
+\frac{n^2-n}{2}
+$$
+
+El término dominante es:
+
+$$
+n^2
+$$
+
+Por lo tanto:
+
+$$
+\boxed{T(n)=O(n^2)}
+$$
+
+---
 
 ### Complejidad esperada de cada algoritmo
+
 | Algoritmo | Mejor caso | Caso promedio | Peor caso |
 |---|---|---|---|
-| **Insertion Sort** | **O(n)** | **O(n²)** | **O(n²)** |
-| **Merge Sort** | **O(n log n)** | **O(n log n)** | **O(n log n)** |
+| **Insertion Sort** | $O(n)$ | $O(n^2)$ | $O(n^2)$ |
+| **Merge Sort** | $O(n\log n)$ | $O(n\log n)$ | $O(n\log n)$ |
