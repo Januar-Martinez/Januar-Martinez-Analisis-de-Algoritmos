@@ -144,26 +144,13 @@ $$
 La expresión de la complejidad es:
 
 $$
-T(n)
-=
-C_1n+C_2(n-1)+C_3(n-1)
-+C_4\sum_{i=1}^{n-1}(t_i+1)
-+C_5\sum_{i=1}^{n-1}t_i
-+C_6\sum_{i=1}^{n-1}t_i
-+C_7(n-1)
+T(n) = C_1n + C_2(n-1) + C_3(n-1) + C_4\sum_{i=1}^{n-1}(t_i+1) + C_5\sum_{i=1}^{n-1}t_i + C_6\sum_{i=1}^{n-1}t_i + C_7(n-1)
 $$
 
 Agrupando términos:
 
 $$
-T(n)
-=
-C_1n
-+
-(n-1)(C_2+C_3+C_4+C_7)
-+
-(C_4+C_5+C_6)
-\sum_{i=1}^{n-1}t_i
+T(n) = C_1n + (n-1)(C_2+C_3+C_4+C_7) + (C_4+C_5+C_6) \sum_{i=1}^{n-1}t_i
 $$
 
 En el peor caso, los datos están en **orden inverso**:
@@ -175,22 +162,13 @@ $$
 Por lo tanto:
 
 $$
-\sum_{i=1}^{n-1}i
-=
-\frac{n(n-1)}{2}
+\sum_{i=1}^{n-1}i = \frac{n(n-1)}{2}
 $$
 
 Sustituimos:
 
 $$
-T(n)
-=
-C_1n
-+
-(C_2+C_3+C_4+C_7)(n-1)
-+
-(C_4+C_5+C_6)
-\frac{n^2-n}{2}
+T(n) = C_1n + (C_2+C_3+C_4+C_7)(n-1) + (C_4+C_5+C_6) \frac{n^2-n}{2}
 $$
 
 El término dominante es:
