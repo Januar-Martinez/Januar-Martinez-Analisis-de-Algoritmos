@@ -1,5 +1,9 @@
 # Laboratorio evaluativo 01 — Fundamentos, complejidad y recurrencias
 
+## Januar Stiwar Martinez Palacios.
+
+Para activar el enton
+
 ## Parte 1 — Analizar el algoritmo antes de comprar hardware
 
 La Secretaría está por firmar la compra de un servidor del doble de velocidad para que el proceso de Tamiza quepa en la ventana de cuatro horas. 
@@ -31,6 +35,13 @@ Es importante que el ordenamiento sea adecuado ya que de eso depende a quien lla
  - Predicción: El escenario **A — Aleatorio** = caso promedio, el escenario **B — Casi ordenado** = mejor caso y el escenario **C — Orden inverso** = el peor caso.
 
 ### 3.2 — Demostración experimental
+
+[código de la Parte 3](parte3_casos.py)
+
+Los generadores utilizados para construir los escenarios de prueba
+se encuentran en [datos.py](datos.py), mientras que los algoritmos
+de ordenamiento se encuentran en [algoritmos.py](algoritmos.py).
+
 #### Comparaciones
 
 ![Comparaciones vs tamaño de entrada](graficas/parte3_comparaciones.png)
@@ -194,6 +205,12 @@ $$
 
 ### 4.2 — Validación experimental
 
+[código de la Parte 4](parte4_complejidad.py)
+
+Para esta parte se utilizan los algoritmos definidos en
+[algoritmos.py](algoritmos.py) y los datos generados mediante
+[datos.py](datos.py).
+
 #### Comparación de tiempos de Insertion Sort y Merge Sort
 ![Comparación de tiempos de Insertion Sort y Merge Sort](graficas/parte4_tiempo.png)
 
@@ -209,3 +226,31 @@ Para tamaños pequeños pueden presentarse diferencias distintas a las
 esperadas debido a los costos constantes de cada implementación y al
 ruido propio de la medición del tiempo. A medida que aumenta el tamaño
 de entrada, el comportamiento asintótico se hace más evidente.
+
+### 4.3 — Concepto técnico a la Secretaría de Salud
+
+Para Tamiza se recomienda utilizar Merge Sort como único algoritmo de ordenamiento, debido a que el canal de entrada puede cambiar sin aviso entre registros aleatorios, casi ordenados u ordenados de forma inversa. El criterio utilizado para resolver este compromiso es priorizar un comportamiento de desempeño más consistente frente a diferentes distribuciones de entrada y, al mismo tiempo, evitar el mantenimiento de tres implementaciones especializadas. Esta decisión está respaldada por las mediciones realizadas y no únicamente por la complejidad teórica.
+
+En la medición con 6.400 registros, sobre el escenario A, Insertion Sort presentó un tiempo de 2,05230310 segundos, mientras que Merge Sort presentó 0,02925640 segundos, según la gráfica parte4_tiempo.png. Esto significa que, para ese tamaño, la ejecución medida de Insertion Sort tomó aproximadamente 70 veces más tiempo que Merge Sort. Además, al aumentar el tamaño de entrada desde 100 hasta 6.400 registros, la curva de Insertion Sort creció de forma mucho más pronunciada, mientras que Merge Sort mantuvo un crecimiento considerablemente menor. Este comportamiento coincide con las complejidades calculadas: O(n²) para Insertion Sort en el caso promedio y O(n log n) para Merge Sort.
+
+Para estimar el comportamiento con 1.200.000 registros, se utiliza como punto de referencia la medición de 6.400 registros. Para Insertion Sort, el factor de crecimiento cuadrático es aproximadamente 35.156 veces, por lo que los 2,05230310 segundos medidos se traducen en una estimación de aproximadamente 72.151 segundos, es decir, 20 horas. Para Merge Sort se utiliza el crecimiento proporcional de n log n; el factor aproximado entre 6.400 y 1.200.000 registros es 299,5, dando una estimación de aproximadamente 8,76 segundos. Estas cifras son estimaciones por extrapolación, no mediciones directas con 1.200.000 registros, y suponen condiciones de ejecución comparables y que el costo relevante corresponde al ordenamiento.
+
+Respecto a la propuesta de adquirir un servidor con el doble de velocidad, los datos medidos no justifican utilizar el hardware como sustituto de una mejora algorítmica. Si se asumiera idealmente que duplicar la velocidad reduce el tiempo a la mitad, la estimación de Insertion Sort pasaría de aproximadamente 20 horas a 10 horas, todavía por encima de la ventana de cuatro horas. Merge Sort pasaría aproximadamente de 8,76 a 4,38 segundos, aunque esta última cifra ya se encuentra muy por debajo de la ventana requerida. Por tanto, los resultados indican que la complejidad del algoritmo tiene un impacto mucho mayor que simplemente duplicar la capacidad de cómputo.
+
+También debe considerarse la memoria. Merge Sort requiere memoria adicional para almacenar las listas temporales durante la división y combinación, mientras que Insertion Sort puede trabajar sobre una copia con un uso adicional menor. Sin embargo, el costo de memoria debe evaluarse junto con el volumen real de 1.200.000 registros y los recursos disponibles. Además, mantener una única implementación de Merge Sort reduce la complejidad de mantenimiento y evita depender de que el escenario B permanezca casi ordenado. Esto proporciona un comportamiento más predecible si cambia el flujo de reproceso de Tamiza.
+
+## Instrucciones para reproducir el experimento
+
+### 1. Crear y activar el entorno virtual
+Desde la carpeta raíz del proyecto:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install matplotlib
+
+Ejecutar parte 3
+python parte3_casos.py
+
+Ejecutar parte 4
+python parte3_casos.py
