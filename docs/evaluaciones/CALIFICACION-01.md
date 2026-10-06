@@ -47,7 +47,7 @@
 
 **Lo que puede mejorar:**
 - Las funciones de `parte3_casos.py` y `parte4_complejidad.py` no tienen *type hints*, y sus *docstrings* no siguen el estilo Google (sin Args/Returns).
-- Hay varios avisos de PEP 8: líneas con espacios, falta de líneas en blanco entre funciones, espacios dentro de paréntesis y archivos sin salto de línea final.
+- Hay varios avisos de PEP 8: falta de líneas en blanco entre funciones y espacios dentro de paréntesis.
 - En `datos.py` el `import` quedó antes del texto de descripción del módulo.
 
 ## 4. Calidad del análisis de las gráficas (16 / 20)
