@@ -165,9 +165,7 @@ $$
 Como:
 
 $$
-\log_2\left(\frac{n}{2}\right)
-=
-\log_2 n-\log_2 2
+\log_2\left(\frac{n}{2}\right) = \log_2 n-\log_2 2
 $$
 
 y:
