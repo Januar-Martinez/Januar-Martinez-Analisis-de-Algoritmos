@@ -1,7 +1,6 @@
-import random
-
 """Generadores de lotes de registros para los escenarios de Tamiza."""
- 
+
+import random
  
 def generar_aleatorio(n: int, semilla: int = 42) -> list[int]:
     """Genera un lote de n registros en orden aleatorio (escenario A).

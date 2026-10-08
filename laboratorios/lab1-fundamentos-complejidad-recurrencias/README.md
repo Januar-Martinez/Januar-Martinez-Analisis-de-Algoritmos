@@ -2,37 +2,66 @@
 
 ## Januar Stiwar Martinez Palacios.
 
-Para activar el enton
+## Instrucciones para reproducir el experimento
+
+Los siguientes comandos deben ejecutarse desde la carpeta del laboratorio:
+
+```powershell
+cd laboratorios/lab1-fundamentos-complejidad-recurrencias
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install matplotlib
+
+Ejecutar parte 3
+python parte3_casos.py
+
+Ejecutar parte 4
+python parte4_complejidad.py
+```
 
 ## Parte 1 — Analizar el algoritmo antes de comprar hardware
 
-La Secretaría está por firmar la compra de un servidor del doble de velocidad para que el proceso de Tamiza quepa en la ventana de cuatro horas. 
+La Secretaría está por firmar la compra de un servidor del doble de velocidad para que el proceso de Tamiza quepa en la ventana de cuatro horas.
 
 ### ¿Por qué debe analizarse primero el algoritmo, si el que está en producción lleva ocho años entregando el resultado correcto?
 
-Un algoritmo funciona correctamente cuando cumple con la finalidad con la que se planteo y un algoritmo es eficiente cuando cumple con esa finalidad planteada en un tiempo determinado, en el caso de Tamiza no esta cumpliendo con la eficiencia ya que el algoritmo no culmina su proceso en la ventana de 4 horas.
+Un algoritmo funciona correctamente cuando cumple con la finalidad para la que fue planteado, pero también debe ser eficiente cuando existe una restricción de tiempo. En el caso de Tamiza, el algoritmo entrega el resultado correcto, pero no cumple con la ventana de cuatro horas.
 
-Duplicar la velocidad del servidor sin antes analizar el algoritmo puede ser un error, ya que si el algoritmo está mal optimizado puede seguir ocurriendo que se incumpla la restricción.
+Duplicar la velocidad del servidor no necesariamente soluciona el problema, porque esto solamente aumenta la velocidad de ejecución del equipo, mientras que el tiempo que necesita el algoritmo puede crecer mucho más rápido cuando aumenta la cantidad de datos. Por ejemplo, si un algoritmo tiene un crecimiento de O(n²), duplicar la cantidad de datos puede hacer que el trabajo sea aproximadamente cuatro veces mayor. Por esta razón, antes de comprar un servidor más rápido es necesario analizar la complejidad del algoritmo.
 
-**Otro ejemplo** es una empresa que procesa la cantidad de llamadas que hace cada cliente durante el día, esto puede llegar a ser mas de 2 millones de datos. Este proceso se debe hacer en una ventana de 8 horas, pero el algoritmo, aunque funciona bien no cumple con el proceso en la ventana requerida.
+**Otro ejemplo** es un sistema de una empresa que procesa las llamadas realizadas por sus clientes durante el día. El sistema puede recibir más de 2.000.000 de registros y debe procesarlos dentro de una ventana de 8 horas. Aunque el algoritmo entregue correctamente el resultado, si tarda más de 8 horas se rompe la restricción del sistema y la información no estaría disponible cuando se necesita. En este caso, aumentar solamente la velocidad del servidor podría no ser suficiente si el crecimiento del algoritmo es demasiado alto.
 
 ## Parte 2 — Responsabilidad ambiental y ética de la implementación
 
 ### Como responsable técnico de Tamiza, ¿qué responsabilidad ambiental y ética asume al decidir qué algoritmo de ordenamiento se ejecuta cada madrugada sobre los datos de 1.200.000 pacientes?
 
-Debido a que se tiene un servidor corriendo el proceso eso se traduce en consumo de energía, y el hecho de que sea un proceso programado para todas las madrugadas implica que el consuma de energía es mayor.
+Debido a que se tiene un servidor ejecutando el proceso, esto se traduce en consumo de energía. El hecho de que el proceso esté programado para ejecutarse todas las madrugadas hace que este consumo se repita diariamente. Si el algoritmo tarda más de lo necesario, durante años se estaría utilizando más tiempo de procesamiento y, por lo tanto, más energía para realizar la misma tarea.
 
-La lentitud del programa afecta a el centro de contacto, ya que al iniciar la jornada no cuentan con la lista completa para realizar las llamadas, en este caso el equipo de desarrollo debe asumir el costo del error ya que debió al mal funcionamiento del programa están perjudicando al centro de contacto. También se ven afectados los pacientes, debido a que puede ocurrir que no sean llamados debido a un error humano de un operador del centro de contacto por hecho de que son demasiados datos, aquí la secretaria debe asumir el costo del error ya que es la responsable principal de que los pacientes sean atendidos de la mejor manera.
+La lentitud del programa afecta al centro de contacto, ya que al iniciar la jornada pueden no contar con la lista completa para realizar las llamadas. En este caso, el equipo de desarrollo debe asumir el costo del error porque una implementación que no cumple la ventana establecida afecta el funcionamiento de otro equipo.
 
-Es importante que el ordenamiento sea adecuado ya que de eso depende a quien llamar primero y es delicado ya que el llamado es por índice de riesgo.
+También se ven afectados los pacientes, debido a que el orden de la lista determina a quién se debe llamar primero según su índice de riesgo. Un error en el ordenamiento podría provocar que un paciente con mayor riesgo quede después de otros pacientes y no sea contactado a tiempo. Por esta razón, la responsabilidad técnica no consiste solamente en que el algoritmo produzca una lista ordenada, sino en garantizar que el orden sea correcto y que el proceso termine dentro del tiempo requerido.
+
+Es importante que el ordenamiento sea adecuado porque de este resultado depende el orden en que se realizan las llamadas. Al tratarse de pacientes clasificados por índice de riesgo, un error de orden puede tener consecuencias sobre la atención que recibe una persona.
 
 ## Parte 3 — Peor caso, mejor caso y caso promedio, demostrados en Python
 
 ### 3.1 — Explicación
 
- - El **mejor caso** se da cuando los 1.200.000 registros vienen ya ordenados por índice de riegos de mayor a menor, el **caso promedio**  se cuando vienen ordenados de manera totalmente al azar y el **peor caso** cuando los registro vienen ordenados de menor a mayor riesgo.
- - Para decidir si el algoritmo Tamiza entra en producción hay que usar el peor caso, porque es donde mas se va demorar el algoritmo en realizar el proceso.
- - Predicción: El escenario **A — Aleatorio** = caso promedio, el escenario **B — Casi ordenado** = mejor caso y el escenario **C — Orden inverso** = el peor caso.
+Para analizar los casos se consideran todas las posibles listas de entrada que tienen el mismo tamaño `n`. El mejor caso corresponde a la entrada que requiere menos trabajo, el peor caso corresponde a la que requiere más trabajo y el caso promedio representa el comportamiento esperado sobre entradas sin un orden particular.
+
+- El **mejor caso** se da cuando los `n` registros ya vienen ordenados por índice de riesgo de mayor a menor. En este caso, Insertion Sort solamente necesita recorrer la lista realizando una comparación entre elementos por cada posición.
+
+- El **caso promedio** se considera cuando los registros llegan en un orden aleatorio. No existe una posición previa que permita asumir que los elementos ya están ordenados, por lo que el algoritmo realiza una cantidad intermedia de comparaciones y desplazamientos.
+
+- El **peor caso** se da cuando los registros vienen ordenados de menor a mayor riesgo. En este caso, cada elemento debe desplazarse hacia la posición correspondiente para conseguir el orden de mayor a menor.
+
+Para decidir si el algoritmo entra en producción se debe considerar el peor caso, porque representa la mayor cantidad de trabajo que puede tener que realizar el algoritmo para una entrada de tamaño `n`.
+
+La predicción para los escenarios de Tamiza es:
+
+- **A — Aleatorio:** caso promedio.
+- **B — Casi ordenado:** se aproxima al mejor caso.
+- **C — Orden inverso:** peor caso.
 
 ### 3.2 — Demostración experimental
 
@@ -46,12 +75,26 @@ de ordenamiento se encuentran en [algoritmos.py](algoritmos.py).
 
 ![Comparaciones vs tamaño de entrada](graficas/parte3_comparaciones.png)
 
+En la gráfica de comparaciones se observa que para `n = 6400`, el
+escenario C — orden inverso presenta aproximadamente **20476800 comparaciones**,
+mientras que el escenario B — casi ordenado presenta aproximadamente
+**10277 comparaciones** y el escenario A — aleatorio aproximadamente
+**10276753 comparaciones**.
+
+Esto muestra que el escenario C requiere más trabajo y corresponde al
+peor caso, mientras que el escenario B requiere menos comparaciones y
+se aproxima al mejor caso. El escenario A presenta un comportamiento
+intermedio y representa el caso promedio.
+
 #### Tiempo de ejecución
 
 ![Tiempo vs tamaño de entrada](graficas/parte3_tiempo.png)
 
-- El escenario C – orden inverso resulto siendo el peor caso, el escenario B – casi ordenado el mejor y el escenario A – aleatorio el que se aproxima al promedio.
-- Esto coincide al 100% con mi predicción.
+En la medición de `n = 6400`, el escenario C tardó **4.35304790 segundos**,
+el escenario A **2.08809030 segundos** y el escenario B **0.00355680 segundos**.
+
+Los resultados coinciden con la predicción realizada antes del
+experimento.
 
 ## Parte 4 — Complejidad de merge sort e insertion sort: cálculo y validación
 
@@ -59,48 +102,55 @@ de ordenamiento se encuentran en [algoritmos.py](algoritmos.py).
 
 #### Planteamiento de la recurrencia de Merge Sort y resolución por método de sustitución
 
+La recurrencia de Merge Sort es:
+
 $$
-T(n)=2T\left(\frac{n}{2}\right)+O(n)
+T(n)=2T\left(\frac{n}{2}\right)+cn
 $$
 
-- $2T(n/2)$ = costo de la recursividad.
-- $O(n)$ = hace referencia a una función de costo lineal.
+Cada término representa una parte del algoritmo:
+
+- `2T(n/2)` representa las **dos llamadas recursivas** que realiza Merge Sort. Cada una trabaja con aproximadamente la mitad de los datos, es decir, `n/2`.
+- `cn` representa el costo de la etapa de **mezcla (merge)**. Para combinar las dos mitades es necesario recorrer los elementos de ambas listas, por lo que esta operación tiene un costo lineal.
+- El factor `c` representa una constante asociada al trabajo realizado al combinar los elementos.
+
+El caso base ocurre cuando la lista tiene un solo elemento o está vacía:
+
+$$
+T(1)=d
+$$
+
+donde `d` es una constante, porque una lista de uno o cero elementos ya está ordenada y no necesita dividirse nuevamente.
 
 #### Método de sustitución
 
 Partimos de:
 
 $$
-T(n)=2T\left(\frac{n}{2}\right)+O(n)
-$$
-
-Reemplazamos $O(n)$ por $cn$:
-
-$$
 T(n)=2T\left(\frac{n}{2}\right)+cn
 $$
 
-**Hipótesis:**
+La hipótesis de sustitución es:
 
 $$
-T(n)\leq cn\log n
+T(n)\leq cn\log_2 n
 $$
 
-Entonces:
+Para `n/2`:
 
 $$
 T\left(\frac{n}{2}\right)
 \leq
-c\frac{n}{2}\log\left(\frac{n}{2}\right)
+c\frac{n}{2}\log_2\left(\frac{n}{2}\right)
 $$
 
-Sustituimos:
+Sustituimos esta hipótesis en la recurrencia:
 
 $$
 T(n)
 \leq
 2\left[
-c\frac{n}{2}\log\left(\frac{n}{2}\right)
+c\frac{n}{2}\log_2\left(\frac{n}{2}\right)
 \right]+cn
 $$
 
@@ -109,40 +159,44 @@ Simplificando:
 $$
 T(n)
 \leq
-cn\log\left(\frac{n}{2}\right)+cn
+cn\log_2\left(\frac{n}{2}\right)+cn
+$$
+
+Como:
+
+$$
+\log_2\left(\frac{n}{2}\right)
+=
+\log_2 n-\log_2 2
+$$
+
+y:
+
+$$
+\log_2 2=1
+$$
+
+entonces:
+
+$$
+T(n)
+\leq
+cn(\log_2 n-1)+cn
+$$
+
+$$
+T(n)
+\leq
+cn\log_2 n-cn+cn
 $$
 
 Por lo tanto:
 
 $$
-T(n)
-\leq
-cn(\log n-\log 2)+cn
+T(n)\leq cn\log_2 n
 $$
 
-Entonces:
-
-$$
-T(n)
-\leq
-cn\log n-cn\log 2+cn
-$$
-
-Como $\log_2 2=1$:
-
-$$
-T(n)
-\leq
-cn\log n-cn+cn
-$$
-
-Finalmente:
-
-$$
-T(n)\leq cn\log n
-$$
-
-Por lo tanto:
+La hipótesis se mantiene y por lo tanto:
 
 $$
 \boxed{T(n)=O(n\log n)}
@@ -152,46 +206,62 @@ $$
 
 ### Cota manual de Insertion Sort
 
-La expresión de la complejidad es:
+El código de Insertion Sort tiene un ciclo externo:
 
-$$
-T(n) = C_1n + C_2(n-1) + C_3(n-1) + C_4\sum_{i=1}^{n-1}(t_i+1) + C_5\sum_{i=1}^{n-1}t_i + C_6\sum_{i=1}^{n-1}t_i + C_7(n-1)
-$$
+```python
+for i in range(1, n):
+```
+Este ciclo se ejecuta n - 1 veces.
 
-Agrupando términos:
+En cada iteración se asignan:
+```python
+clave = datos[i]
+j = i - 1
+```
+por lo que estas instrucciones también se ejecutan n - 1 veces.
 
-$$
-T(n) = C_1n + (n-1)(C_2+C_3+C_4+C_7) + (C_4+C_5+C_6) \sum_{i=1}^{n-1}t_i
-$$
+El ciclo:
+```python
+while j >= 0:
+```
+depende de la posición que tenga el elemento que se está insertando.
+Definimos t_i como la cantidad de veces que se ejecuta el cuerpo del while para la posición i.
 
-En el peor caso, los datos están en **orden inverso**:
+La comparación entre elementos es:
+```python
+if datos[j] >= clave:
+```
+y es la comparación que se cuenta en el experimento.
 
+En el peor caso, los datos vienen en orden inverso al que necesita Tamiza. Para ordenar de mayor a menor, la lista llega de menor a mayor. En este caso, para cada posición i, el elemento debe desplazarse hasta el inicio, por lo que:
 $$
-t_i=i
-$$
-
-Por lo tanto:
-
-$$
-\sum_{i=1}^{n-1}i = \frac{n(n-1)}{2}
-$$
-
-Sustituimos:
-
-$$
-T(n) = C_1n + (C_2+C_3+C_4+C_7)(n-1) + (C_4+C_5+C_6) \frac{n^2-n}{2}
-$$
-
-El término dominante es:
-
-$$
-n^2
+t_i = i
 $$
 
 Por lo tanto:
 
 $$
-\boxed{T(n)=O(n^2)}
+\sum_{i=1}^{n-1} i = \frac{n(n-1)}{2}
+$$
+
+El resto de instrucciones del algoritmo se ejecutan una cantidad lineal de veces o dependen de esta suma.
+
+Por eso podemos expresar el costo como:
+
+$$
+T(n) = C_1n + C_2(n-1) + C_3(n-1) + C_4 \sum_{i=1}^{n-1} (t_i + 1) + C_5 \sum_{i=1}^{n-1} t_i + C_6 \sum_{i=1}^{n-1} t_i + C_7(n-1)
+$$
+
+Sustituyendo:
+
+$$
+T(n) = C_1n + (C_2 + C_3 + C_4 + C_7)(n-1) + (C_4 + C_5 + C_6)\frac{n^2 - n}{2}
+$$
+
+El término dominante es `n²`, por lo que:
+
+$$
+\boxed{T(n) = O(n^2)}
 $$
 
 ---
@@ -212,45 +282,46 @@ Para esta parte se utilizan los algoritmos definidos en
 [datos.py](datos.py).
 
 #### Comparación de tiempos de Insertion Sort y Merge Sort
+
 ![Comparación de tiempos de Insertion Sort y Merge Sort](graficas/parte4_tiempo.png)
 
-En la gráfica se observa que el tiempo de ejecución de Insertion Sort
-aumenta más rápidamente a medida que crece el tamaño de entrada,
-mientras que Merge Sort presenta un crecimiento más moderado.
+En la gráfica se observa que Merge Sort presenta mejores tiempos en
+todos los tamaños medidos. Para `n = 100`, Insertion Sort tarda
+0.00046760 segundos y Merge Sort 0.00037570 segundos. La diferencia
+aumenta al crecer el tamaño de entrada.
 
-Esto coincide con las complejidades analizadas anteriormente:
-Insertion Sort tiene una complejidad promedio de O(n²), mientras que
-Merge Sort tiene una complejidad de O(n log n).
+Para `n = 6400`, Insertion Sort tarda 2.14657220 segundos, mientras
+que Merge Sort tarda 0.03705530 segundos.
 
-Para tamaños pequeños pueden presentarse diferencias distintas a las
-esperadas debido a los costos constantes de cada implementación y al
-ruido propio de la medición del tiempo. A medida que aumenta el tamaño
-de entrada, el comportamiento asintótico se hace más evidente.
+El resultado coincide con las complejidades calculadas anteriormente:
+Insertion Sort tiene una complejidad promedio de $O(n^2)$, mientras que
+Merge Sort tiene una complejidad de $O(n\log n)$.
+
+En los tamaños pequeños la diferencia es menor. Por ejemplo, con
+100 elementos los tiempos son cercanos, aunque Merge Sort sigue siendo
+más rápido en esta medición. A medida que aumenta `n`, la diferencia
+entre las curvas se hace mucho mayor, lo que permite observar con más
+claridad el efecto de las diferentes complejidades.
 
 ### 4.3 — Concepto técnico a la Secretaría de Salud
 
-Para Tamiza se recomienda utilizar Merge Sort como único algoritmo de ordenamiento, debido a que el canal de entrada puede cambiar sin aviso entre registros aleatorios, casi ordenados u ordenados de forma inversa. El criterio utilizado para resolver este compromiso es priorizar un comportamiento de desempeño más consistente frente a diferentes distribuciones de entrada y, al mismo tiempo, evitar el mantenimiento de tres implementaciones especializadas. Esta decisión está respaldada por las mediciones realizadas y no únicamente por la complejidad teórica.
+Para Tamiza se recomienda utilizar Merge Sort como único algoritmo de ordenamiento, debido a que el canal de entrada puede cambiar sin aviso entre registros aleatorios, casi ordenados u ordenados de forma inversa. El criterio utilizado para resolver este compromiso es priorizar un comportamiento más consistente frente a diferentes distribuciones de entrada y evitar el mantenimiento de tres implementaciones especializadas.
 
-En la medición con 6.400 registros, sobre el escenario A, Insertion Sort presentó un tiempo de 2,05230310 segundos, mientras que Merge Sort presentó 0,02925640 segundos, según la gráfica parte4_tiempo.png. Esto significa que, para ese tamaño, la ejecución medida de Insertion Sort tomó aproximadamente 70 veces más tiempo que Merge Sort. Además, al aumentar el tamaño de entrada desde 100 hasta 6.400 registros, la curva de Insertion Sort creció de forma mucho más pronunciada, mientras que Merge Sort mantuvo un crecimiento considerablemente menor. Este comportamiento coincide con las complejidades calculadas: O(n²) para Insertion Sort en el caso promedio y O(n log n) para Merge Sort.
+Esta decisión está respaldada por las mediciones realizadas. En la prueba con 6.400 registros sobre el escenario A, Insertion Sort presentó un tiempo de 2,14657220 segundos, mientras que Merge Sort presentó 0,03705530 segundos, como se observa en la gráfica `parte4_tiempo.png`. En esta medición, Insertion Sort tardó aproximadamente 58 veces más que Merge Sort.
 
-Para estimar el comportamiento con 1.200.000 registros, se utiliza como punto de referencia la medición de 6.400 registros. Para Insertion Sort, el factor de crecimiento cuadrático es aproximadamente 35.156 veces, por lo que los 2,05230310 segundos medidos se traducen en una estimación de aproximadamente 72.151 segundos, es decir, 20 horas. Para Merge Sort se utiliza el crecimiento proporcional de n log n; el factor aproximado entre 6.400 y 1.200.000 registros es 299,5, dando una estimación de aproximadamente 8,76 segundos. Estas cifras son estimaciones por extrapolación, no mediciones directas con 1.200.000 registros, y suponen condiciones de ejecución comparables y que el costo relevante corresponde al ordenamiento.
+Para estimar el comportamiento con 1.200.000 registros se utiliza como referencia la medición de 6.400 registros. Para Insertion Sort, la cantidad de datos aumenta 187,5 veces. Considerando su crecimiento cuadrático:
 
-Respecto a la propuesta de adquirir un servidor con el doble de velocidad, los datos medidos no justifican utilizar el hardware como sustituto de una mejora algorítmica. Si se asumiera idealmente que duplicar la velocidad reduce el tiempo a la mitad, la estimación de Insertion Sort pasaría de aproximadamente 20 horas a 10 horas, todavía por encima de la ventana de cuatro horas. Merge Sort pasaría aproximadamente de 8,76 a 4,38 segundos, aunque esta última cifra ya se encuentra muy por debajo de la ventana requerida. Por tanto, los resultados indican que la complejidad del algoritmo tiene un impacto mucho mayor que simplemente duplicar la capacidad de cómputo.
+$$
+(1.200.000/6.400)^2=35.156,25
+$$
 
-También debe considerarse la memoria. Merge Sort requiere memoria adicional para almacenar las listas temporales durante la división y combinación, mientras que Insertion Sort puede trabajar sobre una copia con un uso adicional menor. Sin embargo, el costo de memoria debe evaluarse junto con el volumen real de 1.200.000 registros y los recursos disponibles. Además, mantener una única implementación de Merge Sort reduce la complejidad de mantenimiento y evita depender de que el escenario B permanezca casi ordenado. Esto proporciona un comportamiento más predecible si cambia el flujo de reproceso de Tamiza.
+Al aplicar este factor al tiempo medido de 2,14657220 segundos, se obtiene una estimación de aproximadamente 75.465 segundos, es decir, cerca de 21 horas. Esto supera ampliamente la ventana de cuatro horas.
 
-## Instrucciones para reproducir el experimento
+Para Merge Sort se considera el crecimiento $n\log n$. La extrapolación desde 6.400 hasta 1.200.000 registros da un factor aproximado de 299,5. Aplicando este factor al tiempo medido de 0,03705530 segundos se obtiene una estimación de aproximadamente 11,10 segundos.
 
-### 1. Crear y activar el entorno virtual
-Desde la carpeta raíz del proyecto:
+Estos valores son estimaciones por extrapolación y no mediciones directas con 1.200.000 registros. La estimación supone que las condiciones de ejecución y el comportamiento de los algoritmos se mantienen comparables.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install matplotlib
+Respecto a la propuesta de comprar un servidor del doble de velocidad, no considero que sea la solución principal. Tomando como referencia la medición de 6.400 registros, Insertion Sort tardó 2,14657220 segundos. Incluso suponiendo idealmente que duplicar la velocidad del servidor reduzca el tiempo a la mitad, el algoritmo seguiría presentando el mismo crecimiento cuadrático y la extrapolación a 1.200.000 registros sería de aproximadamente 10,5 horas, todavía por encima de las cuatro horas requeridas. Por esto, es preferible mejorar el algoritmo antes que depender únicamente de hardware más rápido.
 
-Ejecutar parte 3
-python parte3_casos.py
+También se debe considerar la memoria adicional de Merge Sort, ya que necesita listas temporales durante la división y combinación. Sin embargo, este costo puede ser aceptable frente a la diferencia de tiempo observada. Además, mantener una sola implementación reduce el costo de mantenimiento y evita depender de que el escenario B continúe siendo casi ordenado. Si el flujo de reproceso cambia, Merge Sort mantiene su comportamiento de $O(n\log n)$ sin necesitar otra implementación.
 
-Ejecutar parte 4
-python parte4_complejidad.py

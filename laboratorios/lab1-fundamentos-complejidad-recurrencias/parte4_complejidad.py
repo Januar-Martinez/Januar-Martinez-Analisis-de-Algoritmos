@@ -2,6 +2,10 @@
 
 import time
 import matplotlib.pyplot as plt
+from pathlib import Path
+
+CARPETA = Path(__file__).resolve().parent
+CARPETA_GRAFICAS = CARPETA / "graficas"
 
 from datos import generar_aleatorio
 from algoritmos import insertion_sort, merge_sort
@@ -10,7 +14,11 @@ TAMANOS = [100, 200, 400, 800, 1600, 3200, 6400]
 SEMILLA = 42
 
 def ejecutar_experimento():
-    """Mide el tiempo de los dos algoritmos sobre el escenario A."""
+    """Mide los tiempos de Insertion Sort y Merge Sort.
+
+    Returns:
+        Tupla con las listas de tiempos de ambos algoritmos.
+    """
 
     tiempos_insertion = []
     tiempos_merge = []
@@ -42,7 +50,12 @@ def ejecutar_experimento():
 
 
 def generar_grafica(tiempos_insertion, tiempos_merge):
-    """Genera la grafica comparativa de tiempos."""
+    """Genera la gráfica comparativa de tiempos.
+
+    Args:
+        tiempos_insertion: tiempos medidos para Insertion Sort.
+        tiempos_merge: tiempos medidos para Merge Sort.
+    """
 
     plt.figure()
 
@@ -67,7 +80,7 @@ def generar_grafica(tiempos_insertion, tiempos_merge):
     plt.grid(True)
 
     plt.savefig(
-        "laboratorios/lab1-fundamentos-complejidad-recurrencias/graficas/parte4_tiempo.png",
+        CARPETA_GRAFICAS / "parte4_tiempo.png",
         dpi=300,
         bbox_inches="tight",
     )

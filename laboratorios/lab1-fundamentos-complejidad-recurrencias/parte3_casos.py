@@ -1,5 +1,9 @@
 import time
 import matplotlib.pyplot as plt
+from pathlib import Path
+
+CARPETA = Path(__file__).resolve().parent
+CARPETA_GRAFICAS = CARPETA / "graficas"
 
 from datos import (
     generar_aleatorio,
@@ -14,7 +18,11 @@ SEMILLA = 42
 
 
 def ejecutar_experimento():
-    """Ejecuta insertion sort sobre los tres escenarios."""
+    """Ejecuta el experimento de Insertion Sort.
+
+    Returns:
+        Diccionario con los tiempos y comparaciones de cada escenario.
+    """
 
     resultados = {
         "Aleatorio": {
@@ -63,7 +71,11 @@ def ejecutar_experimento():
 
 
 def generar_graficas(resultados):
-    """Genera las graficas de comparaciones y tiempo."""
+    """Genera las gráficas de comparaciones y tiempos.
+
+    Args:
+        resultados: resultados obtenidos durante el experimento.
+    """
 
     plt.figure()
 
@@ -82,7 +94,7 @@ def generar_graficas(resultados):
     plt.grid(True)
 
     plt.savefig(
-        "laboratorios/lab1-fundamentos-complejidad-recurrencias/graficas/parte3_comparaciones.png",
+        CARPETA_GRAFICAS / "parte3_comparaciones.png",
         dpi=300,
         bbox_inches="tight",
     )
@@ -106,7 +118,7 @@ def generar_graficas(resultados):
     plt.grid(True)
 
     plt.savefig(
-        "laboratorios/lab1-fundamentos-complejidad-recurrencias/graficas/parte3_tiempo.png",
+        CARPETA_GRAFICAS / "parte3_tiempo.png",
         dpi=300,
         bbox_inches="tight",
     )
