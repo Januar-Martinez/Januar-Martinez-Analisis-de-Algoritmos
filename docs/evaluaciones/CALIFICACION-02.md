@@ -61,7 +61,7 @@ Muy buen trabajo: el laboratorio está completo y bien explicado.
 - Solo hay un commit que toca este laboratorio; se piden al menos tres commits descriptivos (por ejemplo uno por parte).
 
 ## ¿El código funciona?
-Sí. Las pruebas pasan, las dos funciones dan siempre la misma suma máxima en mis pruebas adicionales y la medición corre y genera la gráfica.
+Sí. Las pruebas pasan, las dos funciones dan siempre la misma suma máxima en pruebas adicionales con listas aleatorias y la medición corre y genera la gráfica.
 
 ## Para el próximo laboratorio
 - Haga commits frecuentes y descriptivos, uno por cada parte del trabajo.
